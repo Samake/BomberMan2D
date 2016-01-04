@@ -1,5 +1,5 @@
 --[[
-	Name: 2DJAR
+	Name: BomberMan2D
 	Filename: MapManagerC.lua
 	Authors: Sam@ke
 --]]
@@ -11,7 +11,7 @@ function MapManagerC:constructor(parent)
 	
 	self.mainClass = parent
 	
-	self.mapSize = 17
+	self.mapSize = 0
 	self.mapTiles = {}
 	self.currentMap = nil
 	self.mapTextures = {}
@@ -29,9 +29,6 @@ function MapManagerC:constructor(parent)
 	self.screenWidth, self.screenHeight = guiGetScreenSize()
 	self.renderTarget = dxCreateRenderTarget(self.screenWidth, self.screenHeight, true)
 	
-	self.mapScreenSize = self.screenHeight
-	self.mapTileSize = self.mapScreenSize / self.mapSize
-	
 	self.m_LoadMap = bind(self.loadMap, self)
 	addEvent("loadMap", true)
 	addEventHandler("loadMap", root, self.m_LoadMap)
@@ -44,6 +41,10 @@ function MapManagerC:loadMap(map)
 		self.currentMap = map
 		
 		if (self.currentMap) then
+		
+			self.mapSize = self.currentMap.size
+			self.mapScreenSize = self.screenHeight
+			self.mapTileSize = self.mapScreenSize / self.mapSize
 
 			self.startX = (self.screenWidth / 2) - (self.mapScreenSize / 2)
 			self.startY = 0
@@ -52,42 +53,37 @@ function MapManagerC:loadMap(map)
 			
 			for i = 1, self.mapSize do
 				for j = 1, self.mapSize do
-					local tileSettings = {}
-					tileSettings.id = string.format("%02d", i) .. string.format("%02d", j)
-				
-					if (self.currentMap[i][j] == "W") then
-						tileSettings.color = tocolor(100, 60, 0, 255)
-						tileSettings.type = "wall"
-						tileSettings.isBlocked = "true"
-						tileSettings.isSpawn = "false"
-						tileSettings.texture = textures.wallTexture
-					elseif (self.currentMap[i][j] == "S") then
-						tileSettings.color = tocolor(220, 15, 15, 255)
-						tileSettings.type = "floor"
-						tileSettings.isBlocked = "false"
-						tileSettings.isSpawn = "true"
-						tileSettings.texture = textures.floorTexture
-						tileSettings.spawnTexture = self.spawnTexture
-					elseif (self.currentMap[i][j] == "B") then
-						tileSettings.color = tocolor(220, 220, 0, 255)
-						tileSettings.type = "block"
-						tileSettings.isBlocked = "false"
-						tileSettings.isSpawn = "false"
-						tileSettings.texture = textures.blockTexture
-					elseif (self.currentMap[i][j] == "F") then
-						tileSettings.color = tocolor(0, 200, 0, 255)
-						tileSettings.type = "floor"
-						tileSettings.isBlocked = "false"
-						tileSettings.isSpawn = "false"
-						tileSettings.texture = textures.floorTexture
-					end
+					local id = string.format("%02d", i) .. string.format("%02d", j)
 					
-					tileSettings.x = self.startX + self.mapTileSize * (j - 1)
-					tileSettings.y = self.startY + self.mapTileSize * (i - 1)
-					tileSettings.size = self.mapTileSize
-					
-					if (not self.mapTiles[tileSettings.id]) then
-						self.mapTiles[tileSettings.id] = new(MapTileC, self, tileSettings)
+					if (self.currentMap[id]) then
+						local tileSettings = {}
+						tileSettings.id = self.currentMap[id].id
+						tileSettings.type = self.currentMap[id].type
+						tileSettings.isBlocked = self.currentMap[id].isBlocked
+						tileSettings.isSpawn = self.currentMap[id].isSpawn
+						
+						if (self.currentMap[id].type == "wall") then
+							tileSettings.color = tocolor(100, 60, 0, 255)
+							tileSettings.texture = textures.wallTexture
+						elseif (self.currentMap[id].type == "spawn") then
+							tileSettings.color = tocolor(220, 15, 15, 255)
+							tileSettings.texture = textures.floorTexture
+							tileSettings.spawnTexture = self.spawnTexture
+						elseif (self.currentMap[id].type == "block") then
+							tileSettings.color = tocolor(220, 220, 0, 255)
+							tileSettings.texture = textures.blockTexture
+						elseif (self.currentMap[id].type == "floor") then
+							tileSettings.color = tocolor(0, 200, 0, 255)
+							tileSettings.texture = textures.floorTexture
+						end
+						
+						tileSettings.x = self.startX + self.mapTileSize * (j - 1)
+						tileSettings.y = self.startY + self.mapTileSize * (i - 1)
+						tileSettings.size = self.mapTileSize
+						
+						if (not self.mapTiles[tileSettings.id]) then
+							self.mapTiles[tileSettings.id] = new(MapTileC, self, tileSettings)
+						end
 					end
 				end
 			end

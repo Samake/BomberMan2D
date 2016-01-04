@@ -1,5 +1,5 @@
 --[[
-	Name: 2DJAR
+	Name: BomberMan2D
 	Filename: PlayerManagerC.lua
 	Authors: Sam@ke
 --]]
