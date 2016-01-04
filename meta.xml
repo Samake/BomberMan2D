@@ -1,0 +1,49 @@
+<meta>
+	<info name="BomberMan2D" description="BomberMan2D" author="Sam@ke" version="0.0.1" type="gamemode" />
+	<min_mta_version client="1.5" server="1.5"/>
+	<oop>true</oop>
+	
+	<!-- server scripts  -->
+	<script src="server/maps/BomberManMapsS.lua" type="server"/>
+	
+	<script src="server/core/MainClassS.lua" type="server"/>
+	<script src="server/core/GameStateHandlerS.lua" type="server"/>
+	
+	<script src="server/manager/MapManagerS.lua" type="server"/>
+	
+	<!-- client scripts  -->
+	<script src="client/core/MainClassC.lua" type="client" cache="false"/>
+	<script src="client/core/RenderClassC.lua" type="client" cache="false"/>
+	
+	<script src="client/manager/ShaderManagerC.lua" type="client" cache="false"/>
+	<script src="client/manager/MapManagerC.lua" type="client" cache="false"/>
+	<script src="client/manager/PlayerManagerC.lua" type="client" cache="false"/>
+	
+	<script src="client/classes/SkyShaderC.lua" type="client" cache="false"/>
+	<script src="client/classes/MapTileC.lua" type="client" cache="false"/>
+	<script src="client/classes/PlayerC.lua" type="client" cache="false"/>
+	
+	<!-- shared scripts  -->
+	<script src="shared/classlib.lua" type="shared" cache="false"/>
+	<script src="shared/utils.lua" type="shared" cache="false"/>
+	
+	<!-- shaders  -->
+	<file src="res/shaders/skyGradient.fx" type="client" cache="false"/>
+
+	<!-- textures  -->
+	<file src="res/textures/spawn.png" type="client"/>
+	
+	<file src="res/textures/block1.png" type="client"/>
+	<file src="res/textures/block2.png" type="client"/>
+	<file src="res/textures/wall1.png" type="client"/>
+	<file src="res/textures/wall2.png" type="client"/>
+	<file src="res/textures/floor1.png" type="client"/>
+	<file src="res/textures/floor2.png" type="client"/>
+	
+	<!-- fonts -->
+
+	<!-- sounds -->
+	
+	<!-- objects -->
+
+</meta>
