@@ -10,6 +10,7 @@
 	<script src="server/core/GameStateHandlerS.lua" type="server"/>
 	
 	<script src="server/manager/MapManagerS.lua" type="server"/>
+	<script src="server/manager/GameManagerS.lua" type="server"/>
 	
 	<!-- client scripts  -->
 	<script src="client/core/MainClassC.lua" type="client" cache="false"/>
@@ -32,6 +33,7 @@
 
 	<!-- textures  -->
 	<file src="res/textures/spawn.png" type="client"/>
+	<file src="res/textures/blockShadow.png" type="client"/>
 	
 	<file src="res/textures/block1.png" type="client"/>
 	<file src="res/textures/block2.png" type="client"/>

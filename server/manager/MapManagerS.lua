@@ -58,20 +58,20 @@ function MapManagerS:startMap(map)
 				
 				if (not self.currentMap[id]) then
 					if (newMap[i][j] == "W") then
-						self.currentMap[id] = {id = id, type = "wall", isBlocked = "true", isSpawn = "false"}
+						self.currentMap[id] = {id = id, offSetX = j, offSetY = i, isTile = "true", type = "wall", isBlocked = "true", isSpawn = "false", destroyable = "false"}
 					elseif (newMap[i][j] == "S") then
-						self.currentMap[id] = {id = id, type = "spawn", isBlocked = "false", isSpawn = "true"}
+						self.currentMap[id] = {id = id, offSetX = j, offSetY = i, isTile = "true", type = "spawn", isBlocked = "false", isSpawn = "true", destroyable = "false", inUse = "false"}
 					elseif (newMap[i][j] == "B") then
-						self.currentMap[id] = {id = id, type = "block", isBlocked = "true", isSpawn = "false"}
+						self.currentMap[id] = {id = id, offSetX = j, offSetY = i, isTile = "true", type = "block", isBlocked = "true", isSpawn = "false", destroyable = "false", destroyed = "false"}
 					elseif (newMap[i][j] == "F") then
-						self.currentMap[id] = {id = id, type = "floor", isBlocked = "false", isSpawn = "false"}
+						self.currentMap[id] = {id = id, offSetX = j, offSetY = i, isTile = "true", type = "floor", isBlocked = "false", isSpawn = "false", destroyable = "false", destroyed = "false"}
 					end
 
 				end
 			end
 		end
 		
-		triggerClientEvent("loadMap", root, self.currentMap)
+		triggerClientEvent("BM2DLOADMAP", root, self.currentMap)
 		outputChatBox("MapCount: " .. #self.allMaps)
 		outputChatBox("Name: " .. self.currentMap.name)
 	end
@@ -93,6 +93,11 @@ function MapManagerS:getRandomMap()
 	end
 	
 	return nil
+end
+
+
+function MapManagerS:getCurrentMap()
+	return self.currentMap
 end
 
 

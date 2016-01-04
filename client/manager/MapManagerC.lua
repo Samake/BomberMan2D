@@ -25,13 +25,14 @@ function MapManagerC:constructor(parent)
 	end
 	
 	self.spawnTexture = dxCreateTexture("res/textures/spawn.png")
+	self.blockShadowTexture = dxCreateTexture("res/textures/blockShadow.png")
 
 	self.screenWidth, self.screenHeight = guiGetScreenSize()
 	self.renderTarget = dxCreateRenderTarget(self.screenWidth, self.screenHeight, true)
 	
 	self.m_LoadMap = bind(self.loadMap, self)
-	addEvent("loadMap", true)
-	addEventHandler("loadMap", root, self.m_LoadMap)
+	addEvent("BM2DLOADMAP", true)
+	addEventHandler("BM2DLOADMAP", root, self.m_LoadMap)
 end
 
 
@@ -51,38 +52,41 @@ function MapManagerC:loadMap(map)
 			
 			local textures = self.mapTextures[self.currentMap.textureSet]
 			
-			for i = 1, self.mapSize do
-				for j = 1, self.mapSize do
-					local id = string.format("%02d", i) .. string.format("%02d", j)
-					
-					if (self.currentMap[id]) then
-						local tileSettings = {}
-						tileSettings.id = self.currentMap[id].id
-						tileSettings.type = self.currentMap[id].type
-						tileSettings.isBlocked = self.currentMap[id].isBlocked
-						tileSettings.isSpawn = self.currentMap[id].isSpawn
-						
-						if (self.currentMap[id].type == "wall") then
-							tileSettings.color = tocolor(100, 60, 0, 255)
-							tileSettings.texture = textures.wallTexture
-						elseif (self.currentMap[id].type == "spawn") then
-							tileSettings.color = tocolor(220, 15, 15, 255)
-							tileSettings.texture = textures.floorTexture
-							tileSettings.spawnTexture = self.spawnTexture
-						elseif (self.currentMap[id].type == "block") then
-							tileSettings.color = tocolor(220, 220, 0, 255)
-							tileSettings.texture = textures.blockTexture
-						elseif (self.currentMap[id].type == "floor") then
-							tileSettings.color = tocolor(0, 200, 0, 255)
-							tileSettings.texture = textures.floorTexture
-						end
-						
-						tileSettings.x = self.startX + self.mapTileSize * (j - 1)
-						tileSettings.y = self.startY + self.mapTileSize * (i - 1)
-						tileSettings.size = self.mapTileSize
-						
-						if (not self.mapTiles[tileSettings.id]) then
-							self.mapTiles[tileSettings.id] = new(MapTileC, self, tileSettings)
+			for index, mapPart in pairs(self.currentMap) do
+				if (mapPart) then
+					if (type(mapPart) == "table") then
+						if (mapPart.id) then
+							local tileSettings = {}
+							tileSettings.id = mapPart.id
+							tileSettings.type = mapPart.type
+							tileSettings.isBlocked = mapPart.isBlocked
+							tileSettings.isSpawn = mapPart.isSpawn
+							tileSettings.destroyable = mapPart.destroyable
+							tileSettings.destroyed = mapPart.destroyed
+							tileSettings.offSetX = mapPart.offSetX
+							tileSettings.offSetY = mapPart.offSetY
+							
+							if (tileSettings.type == "wall") then
+								tileSettings.color = tocolor(100, 60, 0, 255)
+								tileSettings.texture = textures.wallTexture
+							elseif (tileSettings.type == "spawn") then
+								tileSettings.color = tocolor(220, 15, 15, 255)
+								tileSettings.texture = textures.floorTexture
+							elseif (tileSettings.type == "block") then
+								tileSettings.color = tocolor(220, 220, 0, 255)
+								tileSettings.texture = textures.blockTexture
+							elseif (tileSettings.type == "floor") then
+								tileSettings.color = tocolor(0, 200, 0, 255)
+								tileSettings.texture = textures.floorTexture
+							end
+							
+							tileSettings.x = self.startX + self.mapTileSize * (tileSettings.offSetX - 1)
+							tileSettings.y = self.startY + self.mapTileSize * (tileSettings.offSetY - 1)
+							tileSettings.size = self.mapTileSize
+							
+							if (not self.mapTiles[tileSettings.id]) then
+								self.mapTiles[tileSettings.id] = new(MapTileC, self, tileSettings)
+							end
 						end
 					end
 				end
@@ -107,6 +111,32 @@ function MapManagerC:update()
 end
 
 
+function MapManagerC:isWall(id)
+	if (id) then
+		if (self.mapTiles[id]) then
+			if (self.mapTiles[id].type == "wall") then
+				return "true"
+			end
+		end
+	end
+	
+	return "false"
+end
+
+
+function MapManagerC:isBlock(id)
+	if (id) then
+		if (self.mapTiles[id]) then
+			if (self.mapTiles[id].type == "block") then
+				return "true"
+			end
+		end
+	end
+	
+	return "false"
+end
+
+
 function MapManagerC:getMapRender()
 	return self.renderTarget
 end
@@ -126,7 +156,7 @@ end
 
 
 function MapManagerC:deleteMap()
-	removeEventHandler("loadMap", root, self.m_LoadMap)
+	removeEventHandler("BM2DLOADMAP", root, self.m_LoadMap)
 	
 	self:resetMap()
 	
@@ -149,6 +179,11 @@ function MapManagerC:deleteMap()
 	if (self.spawnTexture) then
 		self.spawnTexture:destroy()
 		self.spawnTexture = nil
+	end
+	
+	if (self.blockShadowTexture) then
+		self.blockShadowTexture:destroy()
+		self.blockShadowTexture = nil
 	end
 	
 	if (self.renderTarget) then

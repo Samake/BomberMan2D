@@ -28,8 +28,8 @@ function SkyShaderC:constructor(parent)
 	self.isLoaded = self.renderTarget and self.skyGradientShader
 	
 	self.m_LoadMap = bind(self.loadMap, self)
-	addEvent("loadMap", true)
-	addEventHandler("loadMap", root, self.m_LoadMap)
+	addEvent("BM2DLOADMAP", true)
+	addEventHandler("BM2DLOADMAP", root, self.m_LoadMap)
 end
 
 
@@ -116,7 +116,7 @@ end
 
 
 function SkyShaderC:destructor()
-	removeEventHandler("loadMap", root, self.m_LoadMap)
+	removeEventHandler("BM2DLOADMAP", root, self.m_LoadMap)
 
 	if (self.renderTarget) then
 		self.renderTarget:destroy()

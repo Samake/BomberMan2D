@@ -12,6 +12,7 @@ function MainClassC:constructor()
 	mainOutput("MainClassC was loaded.")
 	
 	setDevelopmentMode(true, false)
+	setCameraMatrix(0, 0, 100, 0, 0, 200)
 	
 	self.hour = 0
 	self.minute = 0
@@ -93,6 +94,7 @@ function MainClassC:destructor()
 	
 	setPlayerHudComponentVisible("all", true)
 	setDevelopmentMode(false, false)
+	setCameraTarget(getLocalPlayer())
 	
 	mainOutput("MainClassC was deleted.")
 end

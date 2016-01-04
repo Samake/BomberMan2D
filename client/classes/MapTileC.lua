@@ -17,8 +17,11 @@ function MapTileC:constructor(parent, tileSettings)
 	self.type = tileSettings.type
 	self.isBlocked = tileSettings.isBlocked
 	self.isSpawn = tileSettings.isSpawn
+	self.destroyable = tileSettings.destroyable
+	self.destroyed = tileSettings.destroyed
+	self.offSetX = tileSettings.offSetX
+	self.offSetY = tileSettings.offSetY
 	self.texture = tileSettings.texture
-	self.spawnTexture = tileSettings.spawnTexture
 	
 	self.postGUI = false
 	self.subPixelPositioning = false
@@ -33,19 +36,51 @@ function MapTileC:update()
 	if (self.isLoaded) then
 		dxSetRenderTarget(self.mapManager.renderTarget, false)
 		
+		-- // draw own texture // --
 		if (self.texture) then
 			dxDrawImage(self.x, self.y, self.size, self.size, self.texture)
 		else
 			dxDrawRectangle(self.x, self.y, self.size, self.size, self.color, self.postGUI, self.subPixelPositioning)
 		end
 		
-		if (self.spawnTexture) and (self.isSpawn == "true") then
-			dxDrawImage(self.x, self.y, self.size, self.size, self.spawnTexture)
+		-- // draw spawn texture // --
+		if (self.isSpawn == "true") then
+			dxDrawImage(self.x, self.y, self.size, self.size, self.mapManager.spawnTexture)
+		end
+		
+		-- // draw shadows if wall or block is above // --
+		if (self.type ~= "wall") and (self.type ~= "block") then
+			if (self:getIDUp()) then
+				if (self.mapManager:isWall(self:getIDUp()) == "true") or (self.mapManager:isBlock(self:getIDUp()) == "true") then
+					dxDrawImage(self.x, self.y, self.size, self.size, self.mapManager.blockShadowTexture)
+				end
+			end
 		end
 		
 		dxSetRenderTarget()
 	end
 end
+
+
+function MapTileC:getIDLeft()
+	return string.format("%02d", tonumber(self.offSetX) - 1) .. string.format("%02d", self.offSetY)
+end
+
+
+function MapTileC:getIDRight()
+	return string.format("%02d", tonumber(self.offSetX) + 1) .. string.format("%02d", self.offSetY)
+end
+
+
+function MapTileC:getIDUp()
+	return string.format("%02d", self.offSetX) .. string.format("%02d", tonumber(self.offSetY) - 1)
+end
+
+
+function MapTileC:getIDDown()
+	return string.format("%02d", self.offSetX) .. string.format("%02d", tonumber(self.offSetY) + 1)
+end
+
 
 function MapTileC:isBlocked()
 	return self.isBlocked

@@ -40,6 +40,11 @@ function MainClassS:init()
 	if (not self.mapManager) then
 		self.mapManager = new(MapManagerS, self)
 	end
+	
+	
+	if (not self.gameManager) then
+		self.gameManager = new(GameManagerS, self)
+	end
 end
 
 
@@ -66,6 +71,10 @@ function MainClassS:update()
 	if (self.mapManager) then
 		self.mapManager:update()
 	end
+	
+	if (self.gameManager) then
+		self.gameManager:update()
+	end
 end
 
 
@@ -78,6 +87,11 @@ function MainClassS:clear()
 	if (self.mapManager) then
 		delete(self.mapManager)
 		self.mapManager = nil
+	end
+	
+	if (self.gameManager) then
+		delete(self.gameManager)
+		self.gameManager = nil
 	end
 	
 	for index, player in pairs(getElementsByType("player")) do
