@@ -37,6 +37,9 @@ function PlayerC:constructor(parent)
 	bindKey("D", "down", self.m_WalkRight)
 	bindKey("arrow_r", "down", self.m_WalkRight)
 	
+	self.direction = "up"
+	self.isWalking = "true"
+	
 	mainOutput("PlayerC was loaded.")
 end
 
@@ -50,7 +53,14 @@ end
 
 
 function PlayerC:update()
-	--outputChatBox("Pos: " .. tostring(self.position))
+	if (getKeyState("W") == true) or (getKeyState("arrow_u") == true) or (getKeyState("S") == true) or (getKeyState("arrow_d") == true) or (getKeyState("A") == true) or (getKeyState("arrow_l") == true) or (getKeyState("D") == true) or (getKeyState("arrow_r") == true) then
+		self.isWalking = "true"
+	else
+		self.isWalking = "false"
+	end
+	
+	self.player:setData("BM2DDirection", self.direction, true)
+	self.player:setData("BM2DIsWalking", self.isWalking, true)
 end
 
 
@@ -63,6 +73,8 @@ function PlayerC:walkUp()
 			local newPos = string.format("%02d", offSetX) .. string.format("%02d", tonumber(offSetY) - 1)
 		
 			triggerServerEvent("BM2DMOVEPLAYER", self.player, newPos)
+			
+			self.direction = "up"
 		end
 	end
 end
@@ -77,6 +89,8 @@ function PlayerC:walkDown()
 			local newPos = string.format("%02d", offSetX) .. string.format("%02d", tonumber(offSetY) + 1)
 		
 			triggerServerEvent("BM2DMOVEPLAYER", self.player, newPos)
+			
+			self.direction = "down"
 		end
 	end
 end
@@ -91,6 +105,8 @@ function PlayerC:walkLeft()
 			local newPos = string.format("%02d", tonumber(offSetX) - 1) .. string.format("%02d", offSetY)
 		
 			triggerServerEvent("BM2DMOVEPLAYER", self.player, newPos)
+			
+			self.direction = "left"
 		end
 	end
 end
@@ -105,6 +121,8 @@ function PlayerC:walkRight()
 			local newPos = string.format("%02d", tonumber(offSetX) + 1) .. string.format("%02d", offSetY)
 		
 			triggerServerEvent("BM2DMOVEPLAYER", self.player, newPos)
+			
+			self.direction = "right"
 		end
 	end
 end

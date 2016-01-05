@@ -45,6 +45,20 @@
 	<file src="res/textures/floor1.png" type="client"/>
 	<file src="res/textures/floor2.png" type="client"/>
 	
+	<file src="res/textures/player_U1.png" type="client"/>
+	<file src="res/textures/player_U2.png" type="client"/>
+	<file src="res/textures/player_U3.png" type="client"/>
+	<file src="res/textures/player_D1.png" type="client"/>
+	<file src="res/textures/player_D2.png" type="client"/>
+	<file src="res/textures/player_D3.png" type="client"/>
+	<file src="res/textures/player_L1.png" type="client"/>
+	<file src="res/textures/player_L2.png" type="client"/>
+	<file src="res/textures/player_L3.png" type="client"/>
+	<file src="res/textures/player_R1.png" type="client"/>
+	<file src="res/textures/player_R2.png" type="client"/>
+	<file src="res/textures/player_R3.png" type="client"/>
+
+	
 	<!-- fonts -->
 
 	<!-- sounds -->
