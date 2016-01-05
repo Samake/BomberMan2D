@@ -67,6 +67,13 @@ function BombManagerS:deleteBomb(id)
 end
 
 
+function BombManagerS:isDestroyable(id)
+	if (id) and (self.mainClass.mapManager) then
+		return self.mainClass.mapManager:isDestroyable(id)
+	end
+end
+
+
 function BombManagerS:clearBombs()
 	for index, bomb in pairs(self.bombs) do
 		if (bomb) then

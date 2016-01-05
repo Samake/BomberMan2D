@@ -41,6 +41,10 @@ function MainClassC:init()
 		self.playerManager = new(PlayerManagerC, self)
 	end
 	
+	if (not self.effectManager) then
+		self.effectManager = new(EffectManagerC, self)
+	end
+	
 	if (not self.renderClass) then
 		self.renderClass = new(RenderClassC, self)
 	end
@@ -64,6 +68,10 @@ function MainClassC:update()
 	
 	if (self.playerManager) then
 		self.playerManager:update()
+	end
+	
+	if (self.effectManager) then
+		self.effectManager:update()
 	end
 	
 	if (self.renderClass) then
@@ -91,6 +99,11 @@ function MainClassC:clear()
 	if (self.playerManager) then
 		delete(self.playerManager)
 		self.playerManager = nil
+	end
+	
+	if (self.effectManager) then
+		delete(self.effectManager)
+		self.effectManager = nil
 	end
 	
 	if (self.renderClass) then

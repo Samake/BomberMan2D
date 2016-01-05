@@ -48,6 +48,10 @@ function RenderClassC:update()
 			if (self.mainClass.playerManager) then
 				dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.mainClass.playerManager:getPlayerRender())
 			end
+			
+			if (self.mainClass.playerManager) then
+				dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.mainClass.effectManager:getEffectRender())
+			end
 		end
 		
 		dxSetRenderTarget()

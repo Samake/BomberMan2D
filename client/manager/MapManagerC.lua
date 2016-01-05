@@ -33,6 +33,10 @@ function MapManagerC:constructor(parent)
 	self.m_LoadMap = bind(self.loadMap, self)
 	addEvent("BM2DLOADMAP", true)
 	addEventHandler("BM2DLOADMAP", root, self.m_LoadMap)
+	
+	self.m_DestroyBlock = bind(self.destroyBlock, self)
+	addEvent("BM2DDESTROYBLOCK", true)
+	addEventHandler("BM2DDESTROYBLOCK", root, self.m_DestroyBlock)
 end
 
 
@@ -50,7 +54,7 @@ function MapManagerC:loadMap(map)
 			self.startX = (self.screenWidth / 2) - (self.mapScreenSize / 2)
 			self.startY = 0
 			
-			local textures = self.mapTextures[self.currentMap.textureSet]
+			self.textures = self.mapTextures[self.currentMap.textureSet]
 			
 			for index, mapPart in pairs(self.currentMap) do
 				if (mapPart) then
@@ -68,16 +72,16 @@ function MapManagerC:loadMap(map)
 							
 							if (tileSettings.type == "wall") then
 								tileSettings.color = tocolor(100, 60, 0, 255)
-								tileSettings.texture = textures.wallTexture
+								tileSettings.texture = self.textures.wallTexture
 							elseif (tileSettings.type == "spawn") then
 								tileSettings.color = tocolor(220, 15, 15, 255)
-								tileSettings.texture = textures.floorTexture
+								tileSettings.texture = self.textures.floorTexture
 							elseif (tileSettings.type == "block") then
 								tileSettings.color = tocolor(220, 220, 0, 255)
-								tileSettings.texture = textures.blockTexture
+								tileSettings.texture = self.textures.blockTexture
 							elseif (tileSettings.type == "floor") then
 								tileSettings.color = tocolor(0, 200, 0, 255)
-								tileSettings.texture = textures.floorTexture
+								tileSettings.texture = self.textures.floorTexture
 							end
 							
 							tileSettings.x = self.startX + self.mapTileSize * (tileSettings.offSetX - 1)
@@ -91,6 +95,18 @@ function MapManagerC:loadMap(map)
 					end
 				end
 			end
+		end
+	end
+end
+
+
+function MapManagerC:destroyBlock(blockSettings)
+	if (blockSettings) then
+		if (self.mapTiles[blockSettings.id]) then
+			self.mapTiles[blockSettings.id]:setType(blockSettings.type)
+			self.mapTiles[blockSettings.id]:setBlocked(blockSettings.isBlocked)
+			self.mapTiles[blockSettings.id]:setColor(tocolor(0, 200, 0, 255))
+			self.mapTiles[blockSettings.id]:setTexture(self.textures.floorTexture)
 		end
 	end
 end
@@ -183,6 +199,8 @@ end
 function MapManagerC:destructor()
 
 	self:deleteMap()
+	
+	removeEventHandler("BM2DDESTROYBLOCK", root, self.m_DestroyBlock)
 	
 	mainOutput("MapManagerC was deleted.")
 end

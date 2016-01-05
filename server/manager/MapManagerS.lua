@@ -18,6 +18,10 @@ function MapManagerS:constructor(parent)
 	addEvent("onGameStateChanged", true)
 	addEventHandler("onGameStateChanged", root, self.m_SetGameState)
 	
+	self.m_CreateExplosions = bind(self.createExplosions, self)
+	addEvent("BM2DCREATEEXPLOSIONS", true)
+	addEventHandler("BM2DCREATEEXPLOSIONS", root, self.m_CreateExplosions)
+	
 	self.allMaps = getBomberManMaps()
 end
 
@@ -54,17 +58,17 @@ function MapManagerS:startMap(map)
 		
 		for i = 1, mapSettings.size do
 			for j = 1, mapSettings.size do
-				local id = string.format("%02d", i) .. string.format("%02d", j)
+				local id = string.format("%02d", j) .. string.format("%02d", i)
 				
 				if (not self.currentMap[id]) then
 					if (newMap[i][j] == "W") then
 						self.currentMap[id] = {id = id, offSetX = j, offSetY = i, isTile = "true", type = "wall", isBlocked = "true", isSpawn = "false", destroyable = "false"}
 					elseif (newMap[i][j] == "S") then
-						self.currentMap[id] = {id = id, offSetX = j, offSetY = i, isTile = "true", type = "spawn", isBlocked = "false", isSpawn = "true", destroyable = "false", inUse = "false"}
+						self.currentMap[id] = {id = id, offSetX = j, offSetY = i, isTile = "true", type = "spawn", isBlocked = "false", isSpawn = "true", destroyable = "true", inUse = "false"}
 					elseif (newMap[i][j] == "B") then
-						self.currentMap[id] = {id = id, offSetX = j, offSetY = i, isTile = "true", type = "block", isBlocked = "true", isSpawn = "false", destroyable = "false", destroyed = "false"}
+						self.currentMap[id] = {id = id, offSetX = j, offSetY = i, isTile = "true", type = "block", isBlocked = "true", isSpawn = "false", destroyable = "true", destroyed = "false"}
 					elseif (newMap[i][j] == "F") then
-						self.currentMap[id] = {id = id, offSetX = j, offSetY = i, isTile = "true", type = "floor", isBlocked = "false", isSpawn = "false", destroyable = "false", destroyed = "false"}
+						self.currentMap[id] = {id = id, offSetX = j, offSetY = i, isTile = "true", type = "floor", isBlocked = "false", isSpawn = "false", destroyable = "true", destroyed = "false"}
 					end
 
 				end
@@ -131,9 +135,58 @@ function MapManagerS:isBlocked(id)
 end
 
 
+function MapManagerS:isDestroyable(id)
+	if (id) then
+		if (self.currentMap[id]) then
+			return self.currentMap[id].destroyable
+		end
+	end
+	
+	return "false"
+end
+
+
+function MapManagerS:createExplosions(possibleExplosions)
+	if (possibleExplosions) then
+		for index, explosionID in pairs(possibleExplosions) do
+			if (explosionID) then
+				local effectSettings = {}
+				effectSettings.id = explosionID
+				effectSettings.type = "explosion"
+				effectSettings.lifetime = 500
+				
+				triggerClientEvent("BM2DADDEFFECT", root, effectSettings)
+				
+				self:destroyBlock(explosionID)
+			end
+		end
+	end
+end
+
+
+function MapManagerS:destroyBlock(id)
+	if (id) then
+		if (self.currentMap[id]) then
+			if (self.currentMap[id].type == "block") then
+				self.currentMap[id].type = "floor"
+				self.currentMap[id].isBlocked = "false"
+				
+				local blockSettings = {}
+				blockSettings.id = id
+				blockSettings.type = "floor"
+				blockSettings.isBlocked = "false"
+				
+				triggerClientEvent("BM2DDESTROYBLOCK", root, blockSettings)
+			end
+		end
+	end
+end
+
+
 function MapManagerS:destructor()
 
 	removeEventHandler("onGameStateChanged", root, self.m_SetGameState)
+	removeEventHandler("BM2DCREATEEXPLOSIONS", root, self.m_CreateExplosions)
 
 	mainOutput("MapManagerS was deleted.")
 end

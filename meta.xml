@@ -25,10 +25,12 @@
 	<script src="client/manager/MapManagerC.lua" type="client" cache="false"/>
 	<script src="client/manager/PlayerManagerC.lua" type="client" cache="false"/>
 	<script src="client/manager/BombManagerC.lua" type="client" cache="false"/>
+	<script src="client/manager/EffectManagerC.lua" type="client" cache="false"/>
 	
 	<script src="client/classes/SkyShaderC.lua" type="client" cache="false"/>
 	<script src="client/classes/MapTileC.lua" type="client" cache="false"/>
 	<script src="client/classes/PlayerC.lua" type="client" cache="false"/>
+	<script src="client/classes/EffectC.lua" type="client" cache="false"/>
 	
 	<!-- shared scripts  -->
 	<script src="shared/classlib.lua" type="shared" cache="false"/>
@@ -50,6 +52,23 @@
 	<file src="res/textures/bomb1.png" type="client"/>
 	<file src="res/textures/bomb2.png" type="client"/>
 	<file src="res/textures/bomb3.png" type="client"/>
+	
+	<file src="res/textures/explo1.png" type="client"/>
+	<file src="res/textures/explo2.png" type="client"/>
+	<file src="res/textures/explo3.png" type="client"/>
+	<file src="res/textures/explo4.png" type="client"/>
+	<file src="res/textures/explo5.png" type="client"/>
+	<file src="res/textures/explo6.png" type="client"/>
+	<file src="res/textures/explo7.png" type="client"/>
+	<file src="res/textures/explo8.png" type="client"/>
+	<file src="res/textures/explo9.png" type="client"/>
+	<file src="res/textures/explo10.png" type="client"/>
+	<file src="res/textures/explo11.png" type="client"/>
+	<file src="res/textures/explo12.png" type="client"/>
+	<file src="res/textures/explo13.png" type="client"/>
+	<file src="res/textures/explo14.png" type="client"/>
+	<file src="res/textures/explo15.png" type="client"/>
+	<file src="res/textures/explo16.png" type="client"/>
 	
 	<file src="res/textures/player_U1.png" type="client"/>
 	<file src="res/textures/player_U2.png" type="client"/>

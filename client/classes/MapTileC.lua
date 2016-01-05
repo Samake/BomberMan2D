@@ -87,6 +87,26 @@ function MapTileC:isBlocked()
 end
 
 
+function MapTileC:setBlocked(blockedIN)
+	self.isBlocked = blockedIN
+end
+
+
+function MapTileC:setType(typeIN)
+	self.type = typeIN
+end
+
+
+function MapTileC:setTexture(textureIN)
+	self.texture = textureIN
+end
+
+
+function MapTileC:setColor(colorIN)
+	self.color = colorIN
+end
+
+
 function MapTileC:destructor()
 
 	--mainOutput("MapTileC " .. self.id .. " was deleted.")
