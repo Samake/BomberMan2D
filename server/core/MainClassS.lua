@@ -49,6 +49,10 @@ function MainClassS:init()
 	if (not self.playerManager) then
 		self.playerManager = new(PlayerManagerS, self)
 	end
+	
+	if (not self.bombManager) then
+		self.bombManager = new(BombManagerS, self)
+	end
 end
 
 
@@ -83,6 +87,10 @@ function MainClassS:update()
 	if (self.playerManager) then
 		self.playerManager:update()
 	end
+	
+	if (self.bombManager) then
+		self.bombManager:update()
+	end
 end
 
 
@@ -105,6 +113,11 @@ function MainClassS:clear()
 	if (self.playerManager) then
 		delete(self.playerManager)
 		self.playerManager = nil
+	end
+	
+	if (self.bombManager) then
+		delete(self.bombManager)
+		self.bombManager = nil
 	end
 	
 	for index, player in pairs(getElementsByType("player")) do

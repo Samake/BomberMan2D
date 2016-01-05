@@ -21,6 +21,9 @@ function PlayerC:constructor(parent)
 	addEvent("BM2DSETPLAYERDETAILS", true)
 	addEventHandler("BM2DSETPLAYERDETAILS", root, self.m_SetPlayerDetails)
 	
+	self.m_PlaceBomb = bind(self.placeBomb, self)
+	bindKey("space", "down", self.m_PlaceBomb)
+	
 	self.m_WalkUp = bind(self.walkUp, self)
 	bindKey("W", "down", self.m_WalkUp)
 	bindKey("arrow_u", "down", self.m_WalkUp)
@@ -37,8 +40,8 @@ function PlayerC:constructor(parent)
 	bindKey("D", "down", self.m_WalkRight)
 	bindKey("arrow_r", "down", self.m_WalkRight)
 	
-	self.direction = "up"
-	self.isWalking = "true"
+	self.direction = "down"
+	self.isWalking = "false"
 	
 	mainOutput("PlayerC was loaded.")
 end
@@ -61,6 +64,11 @@ function PlayerC:update()
 	
 	self.player:setData("BM2DDirection", self.direction, true)
 	self.player:setData("BM2DIsWalking", self.isWalking, true)
+end
+
+
+function PlayerC:placeBomb()
+	triggerServerEvent("BM2DPLACEBOMB", self.player, self.position)
 end
 
 
@@ -131,6 +139,7 @@ end
 function PlayerC:destructor()
 
 	removeEventHandler("BM2DSETPLAYERDETAILS", root, self.m_SetPlayerDetails)
+	unbindKey("space", "down", self.m_PlaceBomb)
 	unbindKey("W", "down", self.m_WalkUp)
 	unbindKey("arrow_u", "down", self.m_WalkUp)
 	unbindKey("S", "down", self.m_WalkDown)

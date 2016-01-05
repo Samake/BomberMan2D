@@ -32,6 +32,10 @@ function MainClassC:init()
 	if (not self.mapManager) then
 		self.mapManager = new(MapManagerC, self)
 	end
+		
+	if (not self.bombManager) then
+		self.bombManager = new(BombManagerC, self)
+	end
 	
 	if (not self.playerManager) then
 		self.playerManager = new(PlayerManagerC, self)
@@ -54,6 +58,10 @@ function MainClassC:update()
 		self.mapManager:update()
 	end
 	
+	if (self.bombManager) then
+		self.bombManager:update()
+	end
+	
 	if (self.playerManager) then
 		self.playerManager:update()
 	end
@@ -73,6 +81,11 @@ function MainClassC:clear()
 	if (self.mapManager) then
 		delete(self.mapManager)
 		self.mapManager = nil
+	end
+	
+	if (self.bombManager) then
+		delete(self.bombManager)
+		self.bombManager = nil
 	end
 	
 	if (self.playerManager) then

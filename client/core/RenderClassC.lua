@@ -41,6 +41,10 @@ function RenderClassC:update()
 				dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.mainClass.mapManager:getMapRender())
 			end
 			
+			if (self.mainClass.bombManager) then
+				dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.mainClass.bombManager:getBombRender())
+			end
+			
 			if (self.mainClass.playerManager) then
 				dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.mainClass.playerManager:getPlayerRender())
 			end

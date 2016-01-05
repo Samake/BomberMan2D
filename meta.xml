@@ -1,5 +1,5 @@
 <meta>
-	<info name="BomberMan2D" description="BomberMan2D" author="Sam@ke" version="0.0.1" type="gamemode" />
+	<info name="BomberMan2D" description="BomberMan2D" author="Samake/PewX" version="0.0.3" type="gamemode"/>
 	<min_mta_version client="1.5" server="1.5"/>
 	<oop>true</oop>
 	
@@ -12,8 +12,10 @@
 	<script src="server/manager/MapManagerS.lua" type="server"/>
 	<script src="server/manager/GameManagerS.lua" type="server"/>
 	<script src="server/manager/PlayerManagerS.lua" type="server"/>
+	<script src="server/manager/BombManagerS.lua" type="server"/>
 	
 	<script src="server/classes/PlayerS.lua" type="server"/>
+	<script src="server/classes/BombS.lua" type="server"/>
 	
 	<!-- client scripts  -->
 	<script src="client/core/MainClassC.lua" type="client" cache="false"/>
@@ -22,6 +24,7 @@
 	<script src="client/manager/ShaderManagerC.lua" type="client" cache="false"/>
 	<script src="client/manager/MapManagerC.lua" type="client" cache="false"/>
 	<script src="client/manager/PlayerManagerC.lua" type="client" cache="false"/>
+	<script src="client/manager/BombManagerC.lua" type="client" cache="false"/>
 	
 	<script src="client/classes/SkyShaderC.lua" type="client" cache="false"/>
 	<script src="client/classes/MapTileC.lua" type="client" cache="false"/>
@@ -44,6 +47,9 @@
 	<file src="res/textures/wall2.png" type="client"/>
 	<file src="res/textures/floor1.png" type="client"/>
 	<file src="res/textures/floor2.png" type="client"/>
+	<file src="res/textures/bomb1.png" type="client"/>
+	<file src="res/textures/bomb2.png" type="client"/>
+	<file src="res/textures/bomb3.png" type="client"/>
 	
 	<file src="res/textures/player_U1.png" type="client"/>
 	<file src="res/textures/player_U2.png" type="client"/>
