@@ -74,6 +74,8 @@ function MapManagerS:startMap(map)
 		triggerClientEvent("BM2DLOADMAP", root, self.currentMap)
 		outputChatBox("MapCount: " .. #self.allMaps)
 		outputChatBox("Name: " .. self.currentMap.name)
+		
+		self:initSpawns()
 	end
 end
 
@@ -96,8 +98,36 @@ function MapManagerS:getRandomMap()
 end
 
 
+function MapManagerS:initSpawns()
+	local availableSpawns = {}
+	
+	for index, mapPart in pairs(self.currentMap) do
+		if (mapPart) then
+			if (type(mapPart) == "table") then
+				if (mapPart.type == "spawn") then
+					table.insert(availableSpawns, mapPart)
+				end
+			end
+		end
+	end
+	
+	triggerEvent("BM2DSPAWNPLAYERS", root, availableSpawns)
+end
+
+
 function MapManagerS:getCurrentMap()
 	return self.currentMap
+end
+
+
+function MapManagerS:isBlocked(id)
+	if (id) then
+		if (self.currentMap[id]) then
+			return self.currentMap[id].isBlocked
+		end
+	end
+	
+	return "true"
 end
 
 

@@ -11,6 +11,9 @@
 	
 	<script src="server/manager/MapManagerS.lua" type="server"/>
 	<script src="server/manager/GameManagerS.lua" type="server"/>
+	<script src="server/manager/PlayerManagerS.lua" type="server"/>
+	
+	<script src="server/classes/PlayerS.lua" type="server"/>
 	
 	<!-- client scripts  -->
 	<script src="client/core/MainClassC.lua" type="client" cache="false"/>

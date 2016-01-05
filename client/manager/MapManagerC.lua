@@ -111,23 +111,10 @@ function MapManagerC:update()
 end
 
 
-function MapManagerC:isWall(id)
+function MapManagerC:isTileType(id, typeIn)
 	if (id) then
 		if (self.mapTiles[id]) then
-			if (self.mapTiles[id].type == "wall") then
-				return "true"
-			end
-		end
-	end
-	
-	return "false"
-end
-
-
-function MapManagerC:isBlock(id)
-	if (id) then
-		if (self.mapTiles[id]) then
-			if (self.mapTiles[id].type == "block") then
+			if (self.mapTiles[id].type == typeIn) then
 				return "true"
 			end
 		end

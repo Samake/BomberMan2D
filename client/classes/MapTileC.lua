@@ -51,7 +51,7 @@ function MapTileC:update()
 		-- // draw shadows if wall or block is above // --
 		if (self.type ~= "wall") and (self.type ~= "block") then
 			if (self:getIDUp()) then
-				if (self.mapManager:isWall(self:getIDUp()) == "true") or (self.mapManager:isBlock(self:getIDUp()) == "true") then
+				if (self.mapManager:isTileType(self:getIDUp(), "wall") == "true") or (self.mapManager:isTileType(self:getIDUp(), "block") == "true") then
 					dxDrawImage(self.x, self.y, self.size, self.size, self.mapManager.blockShadowTexture)
 				end
 			end

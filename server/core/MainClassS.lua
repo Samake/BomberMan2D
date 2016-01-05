@@ -45,6 +45,10 @@ function MainClassS:init()
 	if (not self.gameManager) then
 		self.gameManager = new(GameManagerS, self)
 	end
+	
+	if (not self.playerManager) then
+		self.playerManager = new(PlayerManagerS, self)
+	end
 end
 
 
@@ -75,6 +79,10 @@ function MainClassS:update()
 	if (self.gameManager) then
 		self.gameManager:update()
 	end
+	
+	if (self.playerManager) then
+		self.playerManager:update()
+	end
 end
 
 
@@ -92,6 +100,11 @@ function MainClassS:clear()
 	if (self.gameManager) then
 		delete(self.gameManager)
 		self.gameManager = nil
+	end
+	
+	if (self.playerManager) then
+		delete(self.playerManager)
+		self.playerManager = nil
 	end
 	
 	for index, player in pairs(getElementsByType("player")) do
