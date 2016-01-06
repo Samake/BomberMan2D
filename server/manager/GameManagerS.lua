@@ -21,6 +21,10 @@ end
 function GameManagerS:setGameState(state)
 	if (state) then
 		self.gameState = state
+		
+		if (self.gameState == "ingame") then
+			triggerClientEvent("BM2DSTARTMUSIC", root)
+		end
 	end
 end
 

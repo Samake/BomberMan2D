@@ -49,7 +49,7 @@ function RenderClassC:update()
 				dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.mainClass.playerManager:getPlayerRender())
 			end
 			
-			if (self.mainClass.playerManager) then
+			if (self.mainClass.effectManager) then
 				dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.mainClass.effectManager:getEffectRender())
 			end
 		end

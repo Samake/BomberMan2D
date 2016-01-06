@@ -18,10 +18,11 @@ function BombS:constructor(parent, bombSettings)
 	self.startTime = getTickCount()
 	
 	self.isExploded = "false"
+	self.bombColor = (255 / self.lifeTime) * 0
 	
 	self.element:setData("BM2DBOMBPOSITION", self.id, true)
 
-	mainOutput("Bomb " .. self.id .. " was loaded.")
+	--mainOutput("Bomb " .. self.id .. " was loaded.")
 end
 
 
@@ -33,6 +34,16 @@ function BombS:update()
 			self.bombManager:deleteBomb(self.id)
 			self.isExploded = "true"
 		end
+	end
+	
+	if (self.element) and (isElement(self.element)) then
+		self.bombColor = (255 / self.lifeTime) * (self.currentTime - self.startTime)
+		
+		if (self.bombColor >= 255) then
+			self.bombColor = 255
+		end
+		
+		self.element:setData("BM2DBOMBCOLOR", self.bombColor, true)
 	end
 end
 
@@ -127,6 +138,8 @@ function BombS:destructor()
 		self.element:destroy()
 		self.element = nil
 	end
+	
+	triggerClientEvent("BM2DSOUNDEFFECT", root, 3)
 
-	mainOutput("Bomb " .. self.id .. " was deleted.")
+	--mainOutput("Bomb " .. self.id .. " was deleted.")
 end

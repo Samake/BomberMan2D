@@ -32,6 +32,10 @@ function MainClassC:init()
 	if (not self.mapManager) then
 		self.mapManager = new(MapManagerC, self)
 	end
+	
+	if (not self.soundManager) then
+		self.soundManager = new(SoundManagerC, self)
+	end
 		
 	if (not self.bombManager) then
 		self.bombManager = new(BombManagerC, self)
@@ -89,6 +93,11 @@ function MainClassC:clear()
 	if (self.mapManager) then
 		delete(self.mapManager)
 		self.mapManager = nil
+	end
+	
+	if (self.soundManager) then
+		delete(self.soundManager)
+		self.soundManager = nil
 	end
 	
 	if (self.bombManager) then

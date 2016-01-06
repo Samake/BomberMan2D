@@ -60,7 +60,8 @@ function BombManagerC:update()
 						local y = self.startY + self.mapTileSize * (tonumber(offSetY) - 1)
 						
 						if (self.bombTextures[self.currentTexture]) then
-							dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.bombTextures[self.currentTexture])
+							local colorValue = bomb:getData("BM2DBOMBCOLOR") or 0
+							dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.bombTextures[self.currentTexture], 0, 0, 0, tocolor(255, 255 - colorValue, 255 - colorValue, 255), false)
 						else
 							dxDrawRectangle(x, y, self.mapTileSize, self.mapTileSize, tocolor(255, 0, 0, 255))
 						end
