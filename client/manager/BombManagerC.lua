@@ -21,6 +21,8 @@ function BombManagerC:constructor(parent)
 	self.bombTextures[4] = dxCreateTexture("res/textures/bomb2.png")
 	
 	self.currentTexture = 1
+	
+	self.postGUI = false
 
 	self.isLoaded = self.renderTarget and self.mainClass
 	
@@ -61,7 +63,7 @@ function BombManagerC:update()
 						
 						if (self.bombTextures[self.currentTexture]) then
 							local colorValue = bomb:getData("BM2DBOMBCOLOR") or 0
-							dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.bombTextures[self.currentTexture], 0, 0, 0, tocolor(255, 255 - colorValue, 255 - colorValue, 255), false)
+							dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.bombTextures[self.currentTexture], 0, 0, 0, tocolor(255, 255 - colorValue, 255 - colorValue, 255), self.postGUI)
 						else
 							dxDrawRectangle(x, y, self.mapTileSize, self.mapTileSize, tocolor(255, 0, 0, 255))
 						end

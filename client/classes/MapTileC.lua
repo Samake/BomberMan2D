@@ -52,7 +52,7 @@ function MapTileC:update()
 		if (self.type ~= "wall") and (self.type ~= "block") then
 			if (self:getIDUp()) then
 				if (self.mapManager:isTileType(self:getIDUp(), "wall") == "true") or (self.mapManager:isTileType(self:getIDUp(), "block") == "true") then
-					dxDrawImage(self.x, self.y, self.size, self.size, self.mapManager.blockShadowTexture)
+					dxDrawImage(self.x, self.y, self.size, self.size, self.mapManager.blockShadowTexture, 0, 0, 0, tocolor(255, 255, 255, 90), self.postGUI)
 				end
 			end
 		end

@@ -18,9 +18,15 @@ function RenderClassC:constructor(parent)
 	
 	self.screenWidth, self.screenHeight = guiGetScreenSize()
 	self.screenSource = dxCreateScreenSource(self.screenWidth, self.screenHeight)
-	self.renderTarget = dxCreateRenderTarget(self.screenWidth, self.screenHeight, true)
+	self.renderTargetGame = dxCreateRenderTarget(self.screenWidth, self.screenHeight, true)
+	self.renderTargetFinal = dxCreateRenderTarget(self.screenWidth, self.screenHeight, true)
 	
-	self.isLoaded = self.screenSource and self.renderTarget
+	self.brightness = 1.00
+	self.saturation = 1.25
+	self.contrast = 1.00
+	self.flipRotation = 0
+	
+	self.isLoaded = self.screenSource and self.renderTargetGame and self.renderTargetFinal
 end
 
 
@@ -28,16 +34,13 @@ function RenderClassC:update()
 	if (self.isLoaded) then
 		self.screenSource:update()
 		
-		dxSetRenderTarget(self.renderTarget, true)
-		
-		if (self.mainClass.shaderManager) then
-			if (self.mainClass.shaderManager.skyShader) then
-				dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.mainClass.shaderManager.skyShader:getSkyRender())
-			end
-		end
+		dxSetRenderTarget(self.renderTargetGame, true)
 		
 		if (self.gameState == "ingame") then
 			if (self.mainClass.mapManager) then
+				self.mapScreenSize = self.mainClass.mapManager.mapScreenSize
+				self.startX = self.mainClass.mapManager.startX
+				self.startY = self.mainClass.mapManager.startY
 				dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.mainClass.mapManager:getMapRender())
 			end
 			
@@ -56,7 +59,33 @@ function RenderClassC:update()
 		
 		dxSetRenderTarget()
 		
-		dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.renderTarget)
+		dxSetRenderTarget(self.renderTargetFinal, true)
+		
+		if (self.mainClass.shaderManager) then
+			if (self.mainClass.shaderManager.skyShader) then
+				dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.mainClass.shaderManager.skyShader:getSkyRender())
+			end
+		end
+		
+		if (self.mainClass.shaderManager) then
+			if (self.mainClass.shaderManager.pictureQualityShader) then
+				self.mainClass.shaderManager.pictureQualityShader:setInput(self.renderTargetGame)
+				self.mainClass.shaderManager.pictureQualityShader:setBrightness(self.brightness)
+				self.mainClass.shaderManager.pictureQualityShader:setSaturation(self.saturation)
+				self.mainClass.shaderManager.pictureQualityShader:setContrast(self.contrast)
+				self.mainClass.shaderManager.pictureQualityShader:setFlipRotation(self.flipRotation)
+				
+				if (self.mapScreenSize) and (self.startX) and (self.startY) then
+					dxDrawRectangle(self.startX, self.startY, self.mapScreenSize, self.mapScreenSize, tocolor(0, 0, 0, 255))
+				end
+				
+				dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.mainClass.shaderManager.pictureQualityShader:getQualityRender())
+			end
+		end
+		
+		dxSetRenderTarget()
+		
+		dxDrawImage(0, 0, self.screenWidth, self.screenHeight, self.renderTargetFinal)
 	end
 end
 
@@ -77,9 +106,14 @@ function RenderClassC:destructor()
 		self.screenSource = nil
 	end
 	
-	if (self.renderTarget) then
-		self.renderTarget:destroy()
-		self.renderTarget = nil
+	if (self.renderTargetGame) then
+		self.renderTargetGame:destroy()
+		self.renderTargetGame = nil
+	end
+	
+	if (self.renderTargetFinal) then
+		self.renderTargetFinal:destroy()
+		self.renderTargetFinal = nil
 	end
 	
 	mainOutput("RenderClassC was deleted.")

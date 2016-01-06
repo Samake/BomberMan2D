@@ -29,6 +29,7 @@
 	<script src="client/manager/EffectManagerC.lua" type="client" cache="false"/>
 	
 	<script src="client/classes/SkyShaderC.lua" type="client" cache="false"/>
+	<script src="client/classes/PictureQualityShaderC.lua" type="client" cache="false"/>
 	<script src="client/classes/MapTileC.lua" type="client" cache="false"/>
 	<script src="client/classes/PlayerC.lua" type="client" cache="false"/>
 	<script src="client/classes/EffectC.lua" type="client" cache="false"/>
@@ -39,6 +40,7 @@
 	
 	<!-- shaders  -->
 	<file src="res/shaders/skyGradient.fx" type="client" cache="false"/>
+	<file src="res/shaders/pictureQuality.fx" type="client" cache="false"/>
 
 	<!-- textures  -->
 	<file src="res/textures/spawn.png" type="client"/>
