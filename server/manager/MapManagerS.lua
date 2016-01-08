@@ -70,7 +70,8 @@ function MapManagerS:startMap(map)
 					elseif (newMap[i][j] == "F") then
 						self.currentMap[id] = {id = id, offSetX = j, offSetY = i, isTile = "true", type = "floor", isBlocked = "false", isSpawn = "false", destroyable = "true", destroyed = "false"}
 					end
-
+					
+					self.currentMap[id].color = {r = 255, g = 255, b = 255}
 				end
 			end
 		end
@@ -164,6 +165,23 @@ function MapManagerS:createExplosions(possibleExplosions)
 end
 
 
+function MapManagerS:setColor(id, color)
+	if (id) then
+		if (self.currentMap[id]) then
+			self.currentMap[id].color = color
+			
+			local blockSettings = {}
+			blockSettings.id = self.currentMap[id].id
+			blockSettings.type = self.currentMap[id].type
+			blockSettings.isBlocked = self.currentMap[id].isBlocked
+			blockSettings.color = color
+				
+			triggerClientEvent("BM2DCHANGEBLOCKSETTINGS", root, blockSettings)
+		end
+	end
+end
+
+
 function MapManagerS:destroyBlock(id)
 	if (id) then
 		if (self.currentMap[id]) then
@@ -172,9 +190,10 @@ function MapManagerS:destroyBlock(id)
 				self.currentMap[id].isBlocked = "false"
 				
 				local blockSettings = {}
-				blockSettings.id = id
-				blockSettings.type = "floor"
-				blockSettings.isBlocked = "false"
+				blockSettings.id = self.currentMap[id].id
+				blockSettings.type = self.currentMap[id].type
+				blockSettings.isBlocked = self.currentMap[id].isBlocked
+				blockSettings.color = self.currentMap[id].color
 				
 				triggerClientEvent("BM2DDESTROYBLOCK", root, blockSettings)
 			end

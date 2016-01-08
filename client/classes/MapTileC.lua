@@ -10,7 +10,7 @@ function MapTileC:constructor(parent, tileSettings)
 
 	self.mapManager = parent
 	self.id = tileSettings.id
-	self.color = tileSettings.color
+	self.color = {r = 0, g = 0, b = 0}
 	self.x = tileSettings.x
 	self.y = tileSettings.y
 	self.size = tileSettings.size
@@ -38,21 +38,21 @@ function MapTileC:update()
 		
 		-- // draw own texture // --
 		if (self.texture) then
-			dxDrawImage(self.x, self.y, self.size, self.size, self.texture)
+			dxDrawImage(self.x, self.y, self.size, self.size, self.texture, 0, 0, 0, tocolor(255, 255, 255, 255), self.postGUI)
 		else
-			dxDrawRectangle(self.x, self.y, self.size, self.size, self.color, self.postGUI, self.subPixelPositioning)
+			dxDrawRectangle(self.x, self.y, self.size, self.size, tocolor(self.color.r, self.color.g, self.color.b, 255), self.postGUI, self.subPixelPositioning)
 		end
 		
 		-- // draw spawn texture // --
 		if (self.isSpawn == "true") then
-			dxDrawImage(self.x, self.y, self.size, self.size, self.mapManager.spawnTexture)
+			dxDrawImage(self.x, self.y, self.size, self.size, self.mapManager.spawnTexture, 0, 0, 0, tocolor(self.color.r, self.color.g, self.color.b, 255), self.postGUI)
 		end
 		
 		-- // draw shadows if wall or block is above // --
 		if (self.type ~= "wall") and (self.type ~= "block") then
 			if (self:getIDUp()) then
 				if (self.mapManager:isTileType(self:getIDUp(), "wall") == "true") or (self.mapManager:isTileType(self:getIDUp(), "block") == "true") then
-					dxDrawImage(self.x, self.y, self.size, self.size, self.mapManager.blockShadowTexture, 0, 0, 0, tocolor(255, 255, 255, 90), self.postGUI)
+					dxDrawImage(self.x, self.y, self.size, self.size, self.mapManager.blockShadowTexture, 0, 0, 0, tocolor(255, 255, 255, 80), self.postGUI)
 				end
 			end
 		end
@@ -88,22 +88,30 @@ end
 
 
 function MapTileC:setBlocked(blockedIN)
-	self.isBlocked = blockedIN
+	if (blockedIN) then
+		self.isBlocked = blockedIN
+	end
 end
 
 
 function MapTileC:setType(typeIN)
-	self.type = typeIN
+	if (typeIN) then
+		self.type = typeIN
+	end
 end
 
 
 function MapTileC:setTexture(textureIN)
-	self.texture = textureIN
+	if (self.texture) then
+		self.texture = textureIN
+	end
 end
 
 
 function MapTileC:setColor(colorIN)
-	self.color = colorIN
+	if (colorIN) then
+		self.color = colorIN
+	end
 end
 
 

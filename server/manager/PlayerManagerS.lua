@@ -17,22 +17,22 @@ function PlayerManagerS:constructor(parent)
 	self.spawnPlaces = {}
 	
 	self.playerColors = {}
-	self.playerColors[1] = {r = 255, g = 255, b = 255} -- WHITE
-	self.playerColors[2] = {r = 255, g = 255, b = 0} -- YELLOW
-	self.playerColors[3] = {r = 255, g = 128, b = 0} -- ORANGE
-	self.playerColors[4] = {r = 255, g = 0, b = 0} -- RED
-	self.playerColors[5] = {r = 128, g = 255, b = 0} -- BROWN
-	self.playerColors[6] = {r = 0, g = 255, b = 0} -- GREEN
-	self.playerColors[7] = {r = 0, g = 255, b = 128} -- LIME
-	self.playerColors[8] = {r = 0, g = 128, b = 255} -- TURKIS
-	self.playerColors[9] = {r = 128, g = 128, b = 255} -- LIGHTBLUE
-	self.playerColors[10] = {r = 0, g = 0, b = 255} -- BLUE
-	self.playerColors[11] = {r = 128, g = 0, b = 255} -- LILA
-	self.playerColors[12] = {r = 255, g = 0, b = 255} -- PINK
-	self.playerColors[13] = {r = 128, g = 128, b = 128} -- GREY
-	self.playerColors[14] = {r = 0, g = 0, b = 0} -- BLACK
-	self.playerColors[15] = {r = 0, g = 0, b = 0} -- BLACK
-	self.playerColors[16] = {r = 0, g = 0, b = 0} -- BLACK
+	self.playerColors[1] = {r = 255, g = 255, b = 255}
+	self.playerColors[2] = {r = 153, g = 0, b = 76}
+	self.playerColors[3] = {r = 0, g = 128, b = 255}
+	self.playerColors[4] = {r = 0, g = 204, b = 102}
+	self.playerColors[5] = {r = 153, g = 76, b = 0}
+	self.playerColors[6] = {r = 255, g = 51, b = 51}
+	self.playerColors[7] = {r = 255, g = 255, b = 102}
+	self.playerColors[8] = {r = 153, g = 153, b = 255}
+	self.playerColors[9] = {r = 255, g = 153, b = 255}
+	self.playerColors[10] = {r = 255, g = 0, b = 127}
+	self.playerColors[11] = {r = 0, g = 0, b = 102}
+	self.playerColors[12] = {r = 0, g = 153, b = 0}
+	self.playerColors[13] = {r = 255, g = 153, b = 51}
+	self.playerColors[14] = {r = 153, g = 153, b = 0}
+	self.playerColors[15] = {r = 128, g = 128, b = 128}
+	self.playerColors[16] = {r = 0, g = 0, b = 0}
 	
 	self.m_SetGameState = bind(self.setGameState, self)
 	addEvent("onGameStateChanged", true)
@@ -107,6 +107,12 @@ function PlayerManagerS:getFreeSpawn()
 			
 			if (self.playerColors[colorTest]) then
 				possibleSpawn.color = self.playerColors[colorTest]
+				
+				if (self.mainClass) then
+					if (self.mainClass.mapManager) then
+						self.mainClass.mapManager:setColor(possibleSpawn.id, possibleSpawn.color)
+					end
+				end
 			end
 			
 			if (self.playerColors[index]) then
