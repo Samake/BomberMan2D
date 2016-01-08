@@ -47,7 +47,37 @@ function PlayerManagerC:constructor(parent)
 	self.playerTextures["right"][4] = dxCreateTexture("res/textures/player_R2.png")
 	self.playerTextures["right"][5] = dxCreateTexture("res/textures/player_R2.png")
 	
+	self.playerMaskTextures = {}
+	self.playerMaskTextures["up"] = {}
+	self.playerMaskTextures["up"][1] = dxCreateTexture("res/textures/player_U1_Mask.png")
+	self.playerMaskTextures["up"][2] = dxCreateTexture("res/textures/player_U2_Mask.png")
+	self.playerMaskTextures["up"][3] = dxCreateTexture("res/textures/player_U3_Mask.png")
+	self.playerMaskTextures["up"][4] = dxCreateTexture("res/textures/player_U2_Mask.png")
+	self.playerMaskTextures["up"][5] = dxCreateTexture("res/textures/player_U2_Mask.png")
+	
+	self.playerMaskTextures["down"] = {}
+	self.playerMaskTextures["down"][1] = dxCreateTexture("res/textures/player_D1_Mask.png")
+	self.playerMaskTextures["down"][2] = dxCreateTexture("res/textures/player_D2_Mask.png")
+	self.playerMaskTextures["down"][3] = dxCreateTexture("res/textures/player_D3_Mask.png")
+	self.playerMaskTextures["down"][4] = dxCreateTexture("res/textures/player_D2_Mask.png")
+	self.playerMaskTextures["down"][5] = dxCreateTexture("res/textures/player_D2_Mask.png")
+	
+	self.playerMaskTextures["left"] = {}
+	self.playerMaskTextures["left"][1] = dxCreateTexture("res/textures/player_L1_Mask.png")
+	self.playerMaskTextures["left"][2] = dxCreateTexture("res/textures/player_L2_Mask.png")
+	self.playerMaskTextures["left"][3] = dxCreateTexture("res/textures/player_L3_Mask.png")
+	self.playerMaskTextures["left"][4] = dxCreateTexture("res/textures/player_L2_Mask.png")
+	self.playerMaskTextures["left"][5] = dxCreateTexture("res/textures/player_L2_Mask.png")
+	
+	self.playerMaskTextures["right"] = {}
+	self.playerMaskTextures["right"][1] = dxCreateTexture("res/textures/player_R1_Mask.png")
+	self.playerMaskTextures["right"][2] = dxCreateTexture("res/textures/player_R2_Mask.png")
+	self.playerMaskTextures["right"][3] = dxCreateTexture("res/textures/player_R3_Mask.png")
+	self.playerMaskTextures["right"][4] = dxCreateTexture("res/textures/player_R2_Mask.png")
+	self.playerMaskTextures["right"][5] = dxCreateTexture("res/textures/player_R2_Mask.png")
+	
 	self.currentTextureStack = 1
+	self.postGUI = false
 	
 	self.m_RefreshPlayerPositions = bind(self.refreshPlayerPositions, self)
 	addEvent("BM2DREFRESHPLAYERPOSITIONS", true)
@@ -98,15 +128,18 @@ function PlayerManagerC:update()
 							
 							local direction = getLocalPlayer():getData("BM2DDirection", self.direction)
 							local isWalking = playerPos.player:getData("BM2DIsWalking", self.isWalking)
+							local color = self.playerClass.color or {r = 255, g = 255, b = 255}
 							
-							if (self.playerTextures[direction]) then
+							if (self.playerTextures[direction]) and ((self.playerMaskTextures[direction])) then
 								if (isWalking == "true") then
-									if (self.playerTextures[direction][self.currentTextureStack]) then
-										dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerTextures[direction][self.currentTextureStack])
+									if (self.playerTextures[direction][self.currentTextureStack]) and (self.playerMaskTextures[direction][self.currentTextureStack]) then
+										dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerTextures[direction][self.currentTextureStack], 0, 0, 0, tocolor(255, 255, 255, 255), self.postGUI)
+										dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerMaskTextures[direction][self.currentTextureStack], 0, 0, 0, tocolor(color.r, color.g, color.b, 255), self.postGUI)
 									end
 								else
-									if (self.playerTextures[direction][5]) then
-										dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerTextures[direction][5])
+									if (self.playerTextures[direction][5]) and (self.playerMaskTextures[direction][5]) then
+										dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerTextures[direction][5], 0, 0, 0, tocolor(255, 255, 255, 255), self.postGUI)
+										dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerMaskTextures[direction][5], 0, 0, 0, tocolor(color.r, color.g, color.b, 255), self.postGUI)
 									end
 								end
 							else
@@ -163,5 +196,14 @@ function PlayerManagerC:destructor()
 		end
 	end
 	
+	for index, textureStack in pairs(self.playerMaskTextures) do
+		for _, texture in pairs(textureStack) do
+			if (texture) then
+				texture:destroy()
+				texture = nil
+			end
+		end
+	end
+
 	mainOutput("PlayerManagerC was deleted.")
 end

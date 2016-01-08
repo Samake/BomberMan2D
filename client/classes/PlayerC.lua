@@ -51,6 +51,7 @@ function PlayerC:setPlayerDetails(playerSettings)
 	if (playerSettings) then
 		self.id = playerSettings.id
 		self.position = playerSettings.position
+		self.color = playerSettings.color
 	end
 end
 

@@ -14,6 +14,7 @@ function PlayerS:constructor(parent, playerSettings)
 	self.player = playerSettings.player
 	self.name = self.player:getName()
 	self.position = playerSettings.position
+	self.color = playerSettings.color
 	self.direction = "S"
 	
 	self.m_MovePlayer = bind(self.movePlayer, self)

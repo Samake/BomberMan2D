@@ -85,6 +85,18 @@
 	<file src="res/textures/player_R1.png" type="client"/>
 	<file src="res/textures/player_R2.png" type="client"/>
 	<file src="res/textures/player_R3.png" type="client"/>
+	<file src="res/textures/player_U1_Mask.png" type="client"/>
+	<file src="res/textures/player_U2_Mask.png" type="client"/>
+	<file src="res/textures/player_U3_Mask.png" type="client"/>
+	<file src="res/textures/player_D1_Mask.png" type="client"/>
+	<file src="res/textures/player_D2_Mask.png" type="client"/>
+	<file src="res/textures/player_D3_Mask.png" type="client"/>
+	<file src="res/textures/player_L1_Mask.png" type="client"/>
+	<file src="res/textures/player_L2_Mask.png" type="client"/>
+	<file src="res/textures/player_L3_Mask.png" type="client"/>
+	<file src="res/textures/player_R1_Mask.png" type="client"/>
+	<file src="res/textures/player_R2_Mask.png" type="client"/>
+	<file src="res/textures/player_R3_Mask.png" type="client"/>
 
 	
 	<!-- fonts -->
