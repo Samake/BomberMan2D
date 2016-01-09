@@ -113,39 +113,40 @@ function PlayerManagerC:update()
 			for index, playerPos in pairs(self.playerPositions) do
 				if (playerPos) then
 					if (playerPos.position) then
-		
-						if (playerPos.player == self.playerClass.player) then
-							self.playerClass.position = playerPos.position
-						end
-
-						local offSetX = string.sub(playerPos.position, 1, 2)
-						local offSetY = string.sub(playerPos.position, 3, 4)
-
-						if (offSetX) and (offSetY) then
-							local x = self.startX + self.mapTileSize * (tonumber(offSetX) - 1)
-							local y = self.startY + self.mapTileSize * (tonumber(offSetY) - 1)
-
-							
-							local direction = getLocalPlayer():getData("BM2DDirection", self.direction)
-							local isWalking = playerPos.player:getData("BM2DIsWalking", self.isWalking)
-							local color = self.playerClass.color or {r = 255, g = 255, b = 255}
-							
-							if (self.playerTextures[direction]) and ((self.playerMaskTextures[direction])) then
-								if (isWalking == "true") then
-									if (self.playerTextures[direction][self.currentTextureStack]) and (self.playerMaskTextures[direction][self.currentTextureStack]) then
-										dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerTextures[direction][self.currentTextureStack], 0, 0, 0, tocolor(255, 255, 255, 255), self.postGUI)
-										dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerMaskTextures[direction][self.currentTextureStack], 0, 0, 0, tocolor(color.r, color.g, color.b, 255), self.postGUI)
-									end
-								else
-									if (self.playerTextures[direction][5]) and (self.playerMaskTextures[direction][5]) then
-										dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerTextures[direction][5], 0, 0, 0, tocolor(255, 255, 255, 255), self.postGUI)
-										dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerMaskTextures[direction][5], 0, 0, 0, tocolor(color.r, color.g, color.b, 255), self.postGUI)
-									end
-								end
-							else
-								dxDrawRectangle(x, y, self.mapTileSize, self.mapTileSize, tocolor(0, 255, 0, 255))
+						
+						if (playerPos.player:getData("BM2DISALIVE") == "true") then
+							if (playerPos.player == self.playerClass.player) then
+								self.playerClass.position = playerPos.position
 							end
 
+							local offSetX = string.sub(playerPos.position, 1, 2)
+							local offSetY = string.sub(playerPos.position, 3, 4)
+
+							if (offSetX) and (offSetY) then
+								local x = self.startX + self.mapTileSize * (tonumber(offSetX) - 1)
+								local y = self.startY + self.mapTileSize * (tonumber(offSetY) - 1)
+
+								
+								local direction = getLocalPlayer():getData("BM2DDirection", self.direction)
+								local isWalking = playerPos.player:getData("BM2DIsWalking", self.isWalking)
+								local color = self.playerClass.color or {r = 255, g = 255, b = 255}
+								
+								if (self.playerTextures[direction]) and ((self.playerMaskTextures[direction])) then
+									if (isWalking == "true") then
+										if (self.playerTextures[direction][self.currentTextureStack]) and (self.playerMaskTextures[direction][self.currentTextureStack]) then
+											dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerTextures[direction][self.currentTextureStack], 0, 0, 0, tocolor(255, 255, 255, 255), self.postGUI)
+											dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerMaskTextures[direction][self.currentTextureStack], 0, 0, 0, tocolor(color.r, color.g, color.b, 255), self.postGUI)
+										end
+									else
+										if (self.playerTextures[direction][5]) and (self.playerMaskTextures[direction][5]) then
+											dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerTextures[direction][5], 0, 0, 0, tocolor(255, 255, 255, 255), self.postGUI)
+											dxDrawImage(x, y - self.mapTileSize, self.mapTileSize, self.mapTileSize * 2, self.playerMaskTextures[direction][5], 0, 0, 0, tocolor(color.r, color.g, color.b, 255), self.postGUI)
+										end
+									end
+								else
+									dxDrawRectangle(x, y, self.mapTileSize, self.mapTileSize, tocolor(0, 255, 0, 255))
+								end
+							end
 						end
 					end
 				end

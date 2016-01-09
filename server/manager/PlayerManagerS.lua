@@ -41,6 +41,10 @@ function PlayerManagerS:constructor(parent)
 	self.m_SpawnAllPlayers = bind(self.spawnAllPlayers, self)
 	addEvent("BM2DSPAWNPLAYERS", true)
 	addEventHandler("BM2DSPAWNPLAYERS", root, self.m_SpawnAllPlayers)
+	
+	self.m_KillPlayer = bind(self.killPlayer, self)
+	addEvent("BM2DKILLPLAYER", true)
+	addEventHandler("BM2DKILLPLAYER", root, self.m_KillPlayer)
 end
 
 
@@ -56,6 +60,9 @@ function PlayerManagerS:update()
 		
 		for index, playerClass in pairs(self.players) do
 			if (playerClass) then
+			
+				playerClass:update()
+				
 				if (not self.playerPositions[playerClass:getID()]) then
 					self.playerPositions[playerClass:getID()] = {}
 					self.playerPositions[playerClass:getID()].player = playerClass:getPlayer()
@@ -105,18 +112,14 @@ function PlayerManagerS:getFreeSpawn()
 		if (possibleSpawn) then
 			local colorTest = math.random(1, 16)
 			
-			if (self.playerColors[colorTest]) then
-				possibleSpawn.color = self.playerColors[colorTest]
+			if (self.playerColors[colorTest]) then --if (self.playerColors[index]) then
+				possibleSpawn.color = self.playerColors[colorTest] --possibleSpawn.color = self.playerColors[index]
 				
 				if (self.mainClass) then
 					if (self.mainClass.mapManager) then
 						self.mainClass.mapManager:setColor(possibleSpawn.id, possibleSpawn.color)
 					end
 				end
-			end
-			
-			if (self.playerColors[index]) then
-				--possibleSpawn.color = self.playerColors[index]
 			end
 			
 			if (possibleSpawn.isSpawn == "true") and (possibleSpawn.inUse == "false") then
@@ -140,6 +143,19 @@ function PlayerManagerS:isBlocked(pos)
 end
 
 
+function PlayerManagerS:killPlayer(id)
+	if (id) then
+		for index, playerClass in pairs(self.players) do
+			if (playerClass) then
+				if (playerClass:getPosition() == id) then
+					playerClass:killPlayer()
+				end
+			end
+		end
+	end
+end
+
+
 function PlayerManagerS:clear()
 	self.spawnPlaces = {}
 	
@@ -157,6 +173,7 @@ function PlayerManagerS:destructor()
 
 	removeEventHandler("onGameStateChanged", root, self.m_SetGameState)
 	removeEventHandler("BM2DSPAWNPLAYERS", root, self.m_SpawnAllPlayers)
+	removeEventHandler("BM2DKILLPLAYER", root, self.m_KillPlayer)
 
 	mainOutput("PlayerManagerS was deleted.")
 end

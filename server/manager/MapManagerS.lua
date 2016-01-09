@@ -159,6 +159,8 @@ function MapManagerS:createExplosions(possibleExplosions)
 				triggerClientEvent("BM2DADDEFFECT", root, effectSettings)
 				
 				self:destroyBlock(explosionID)
+				
+				triggerEvent("BM2DKILLPLAYER", root, explosionID)
 			end
 		end
 	end
@@ -195,7 +197,7 @@ function MapManagerS:destroyBlock(id)
 				blockSettings.isBlocked = self.currentMap[id].isBlocked
 				blockSettings.color = self.currentMap[id].color
 				
-				triggerClientEvent("BM2DDESTROYBLOCK", root, blockSettings)
+				triggerClientEvent("BM2DCHANGEBLOCKSETTINGS", root, blockSettings)
 			end
 		end
 	end
